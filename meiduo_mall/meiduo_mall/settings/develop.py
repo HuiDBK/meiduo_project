@@ -141,7 +141,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# 设置访问静态文件的url前缀
 STATIC_URL = '/static/'
+
+# 设置静态文件存放的目录
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 LOGGING = {
     'version': 1,
