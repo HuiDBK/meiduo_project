@@ -28,10 +28,10 @@ let vm = new Vue({
         check_username() {
             let re = /^[a-zA-Z0-9_-]{5,20}$/;
             if (re.test(this.username)) {
-                this.error_name = false;
+                this.error_username = false;
             } else {
                 this.error_username_msg = '请输入5-20个字符的用户名';
-                this.error_name = true;
+                this.error_username = true;
             }
         },
         check_password() {
@@ -43,7 +43,6 @@ let vm = new Vue({
             }
         },
         check_confirm_pwd() {
-            console.log(111);
             if (this.password !== this.confirm_pwd) {
                 this.error_confirm_pwd = true;
             } else {
@@ -74,10 +73,13 @@ let vm = new Vue({
             this.check_mobile();
             this.check_allow();
 
-            if (this.error_name === true || this.error_password === true || this.error_confirm_pwd === true
+            if (this.error_username === true || this.error_password === true || this.error_confirm_pwd === true
                 || this.error_mobile === true || this.error_allow === true) {
                 // 禁用表单的提交
                 window.event.returnValue = false;
+                console.log('args error')
+            }else {
+                console.log('register')
             }
         },
     },

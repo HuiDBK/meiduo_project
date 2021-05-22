@@ -5,7 +5,6 @@
 # @Date: 2021/05/20 16:09
 import os
 import sys
-from pprint import pprint
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,7 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'meiduo_mall.apps.users'
 
-    'users'
+    # 注册美多商城子应用
+    'users',
+    'contents'
 ]
 
 MIDDLEWARE = [
