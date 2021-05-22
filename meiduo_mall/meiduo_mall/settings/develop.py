@@ -3,11 +3,15 @@
 # @Author: Hui
 # @Desc: { 美多项目开发环境模块 }
 # @Date: 2021/05/20 16:09
-
 import os
+import sys
+from pprint import pprint
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 追加子应用导包路径
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -29,6 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'meiduo_mall.apps.users'
+
+    'users'
 ]
 
 MIDDLEWARE = [
