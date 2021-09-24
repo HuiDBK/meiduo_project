@@ -33,6 +33,25 @@ let vm = new Vue({
                 this.error_username_msg = '请输入5-20个字符的用户名';
                 this.error_username = true;
             }
+
+            if(this.error_username === false){
+                // 判断用户名是否重复注册
+                let url = '/usernames/' + this.username + '/count/'
+                let options = {responseType: 'json'}
+                axios.get(url, options)
+                    .then(response => {
+                        console.log(response.data)
+                        if(response.data.data.count === 1){
+                            this.error_username_msg = '用户名已存在';
+                            this.error_username = true;
+                        }else{
+                            this.error_username = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+            }
         },
         check_password() {
             let re = /^[0-9A-Za-z]{8,20}$/;
@@ -78,7 +97,7 @@ let vm = new Vue({
                 // 禁用表单的提交
                 window.event.returnValue = false;
                 console.log('args error')
-            }else {
+            } else {
                 console.log('register')
             }
         },

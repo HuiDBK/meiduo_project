@@ -84,9 +84,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        # 'HOST': '192.168.246.133',
         'HOST': '127.0.0.1',
         'PORT': 3306,
-        'USER': 'hui',
+        'USER': 'root',
         'PASSWORD': '123456',
         'NAME': 'meiduo',
     }
@@ -117,7 +118,7 @@ CACHES = {
     # 默认采用0号Redis库。
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
+        "LOCATION": "redis://192.168.246.133:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -126,7 +127,7 @@ CACHES = {
     # session, 采用1号Redis库
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://192.168.246.133:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }

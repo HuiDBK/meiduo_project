@@ -53,7 +53,7 @@ class R(object):
     def data(self, key=None, obj=None):
         """统一后端返回的数据"""
 
-        if all([key, obj]):
+        if key:
             self._data[key] = obj
 
         context = {
