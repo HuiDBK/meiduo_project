@@ -24,8 +24,9 @@ class StatusCodeEnum(Enum):
     SMS_CODE_ERR = (4008, '短信验证码有误')
     ALLOW_ERR = (4009, '未勾选协议')
     SESSION_ERR = (4010, '用户未登录')
+    REGISTER_FAILED_ERR = (4011, '注册失败')
 
-    DB_ERR = (5000, '数据错误')
+    DB_ERR = (5000, '数据库错误')
     EMAIL_ERR = (5001, '邮箱错误')
     TEL_ERR = (5002, '固定电话错误')
     NODATA_ERR = (5003, '无数据')
