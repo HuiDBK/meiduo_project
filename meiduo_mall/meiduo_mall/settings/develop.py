@@ -47,6 +47,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 指定项目异常中间件
+    'meiduo_mall.utils.middlewares.ExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'meiduo_mall.urls'
@@ -197,6 +200,7 @@ LOGGING = {
 
             # 日志文件的位置
             'filename': os.path.join(os.path.dirname(BASE_DIR), 'logs/meiduo.log'),
+            'encoding': 'utf-8',
             'maxBytes': 300 * 1024 * 1024,
             'backupCount': 10,
             'formatter': 'verbose'

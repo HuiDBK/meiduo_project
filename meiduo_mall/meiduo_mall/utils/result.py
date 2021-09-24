@@ -39,6 +39,17 @@ class R(object):
         return r
 
     @staticmethod
+    def server_error():
+        """
+        组织服务器错误信息
+        :return:
+        """
+        r = R()
+        r.code = StatusCodeEnum.SERVER_ERR.code
+        r.errmsg = StatusCodeEnum.SERVER_ERR.errmsg
+        return r
+
+    @staticmethod
     def set_result(enum):
         """
         组织对应枚举类的响应信息
