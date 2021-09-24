@@ -3,12 +3,18 @@ let vm = new Vue({
 
     // 修改Vue读取变量的模板语法
     delimiters: ['[[', ']]'],
+
     data: {
         // v-model
+        uuid: '',
+        image_code_url: '',
         username: '',
         password: '',
         confirm_pwd: '',
+        image_code: '',
         mobile: '',
+        sms_code: '',
+        send_flag: false,   // 短信发送标记
         allow: false,
 
         // v-show
@@ -17,14 +23,32 @@ let vm = new Vue({
         error_confirm_pwd: false,
         error_mobile: false,
         error_allow: false,
+        error_image_code: false,
+        error_sms_code: false,
 
         // error_msg
         error_username_msg: '',
         error_mobile_msg: '',
+        error_image_code_msg: '',
+        error_sms_code_message: '',
+        sms_code_tip: '发送',
 
     },
 
+    // 页面加载完成后执行
+    mounted() {
+        // 生成图形验证码
+        this.generate_image_code();
+    },
+
     methods: {
+        generate_image_code() {
+            // 生成UUID。generateUUID() : 封装在common.js文件中，需要提前引入
+            this.uuid = generateUUID();
+            // 拼接图形验证码请求地址
+            this.image_code_url = "/image_codes/" + this.uuid + "/";
+
+        },
         check_username() {
             let re = /^[a-zA-Z0-9_-]{5,20}$/;
             if (re.test(this.username)) {
@@ -89,7 +113,7 @@ let vm = new Vue({
                             //    手机号重复注册
                             this.error_mobile = true
                             this.error_mobile_msg = '手机号码重复注册'
-                        }else{
+                        } else {
                             this.error_mobile = false
                         }
                     })
@@ -98,12 +122,79 @@ let vm = new Vue({
                     })
             }
         },
+        check_image_code() {
+            if (!this.image_code) {
+                this.error_image_code_msg = '请填写图片验证码';
+                this.error_image_code = true;
+            } else {
+                this.error_image_code = false;
+            }
+        },
         check_allow() {
             if (!this.allow) {
                 this.error_allow = true;
             } else {
                 this.error_allow = false;
             }
+        },
+        check_sms_code() {
+            if (this.sms_code.length !== 6) {
+                this.error_sms_code_message = '请填写短信验证码';
+                this.error_sms_code = true;
+            } else {
+                this.error_sms_code = false;
+            }
+        },
+        send_sms_code() {
+            // 避免重复点击
+            if (this.sending_flag === true) {
+                return;
+            }
+            this.sending_flag = true;
+
+            // 校验参数
+            this.check_mobile();
+            this.check_image_code();
+            if (this.error_mobile === true || this.error_image_code === true) {
+                this.sending_flag = false;
+                return;
+            }
+
+            // 请求短信验证码
+            let url = '/sms_codes/' + this.mobile + '/?image_code=' + this.image_code + '&uuid=' + this.uuid;
+            let options = {responseType: 'json'}
+            axios.get(url, options)
+                .then(response => {
+                    if (response.data.code === 0) {
+                        // 倒计时60秒
+                        var num = 60;
+                        var t = setInterval(() => {
+                            if (num === 1) {
+                                clearInterval(t);
+                                this.sms_code_tip = '获取短信验证码';
+                                this.sending_flag = false;
+                            } else {
+                                num -= 1;
+                                // 展示倒计时信息
+                                this.sms_code_tip = num + '秒';
+                            }
+                        }, 1000, 60)
+                    } else {
+                        if (response.data.code === 4001) {
+                            this.error_image_code_msg = response.data.errmsg;
+                            this.error_image_code = true;
+                        } else { // 4002
+                            this.error_sms_code_message = response.data.errmsg;
+                            this.error_sms_code = true;
+                        }
+                        this.generate_image_code();
+                        this.sending_flag = false;
+                    }
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    this.sending_flag = false;
+                })
         },
         on_submit() {
             this.check_username();

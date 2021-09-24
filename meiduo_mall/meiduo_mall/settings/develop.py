@@ -36,7 +36,8 @@ INSTALLED_APPS = [
 
     # 注册美多商城子应用
     'users',
-    'contents'
+    'contents',
+    'verifications'
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,15 @@ CACHES = {
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.246.133:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+
+    # 校验码(图片、短信验证码), 采用2号Redis库
+    "verify_code": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.246.133:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
