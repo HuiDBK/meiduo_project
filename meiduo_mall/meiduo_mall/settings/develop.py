@@ -117,10 +117,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+# 缓存别名
+DEFAULT_CACHE_ALIAS = 'default'
+SESSION_CACHE_ALIAS = "session"
+VERIFY_CODE_CACHE_ALIAS = 'verify_code'
+
 # 缓存
 CACHES = {
     # 默认采用0号Redis库。
-    "default": {
+    DEFAULT_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.246.133:6379/0",
         "OPTIONS": {
@@ -129,7 +136,7 @@ CACHES = {
     },
 
     # session, 采用1号Redis库
-    "session": {
+    SESSION_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.246.133:6379/1",
         "OPTIONS": {
@@ -138,7 +145,7 @@ CACHES = {
     },
 
     # 校验码(图片、短信验证码), 采用2号Redis库
-    "verify_code": {
+    VERIFY_CODE_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.246.133:6379/2",
         "OPTIONS": {
@@ -146,8 +153,7 @@ CACHES = {
         }
     },
 }
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "session"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -170,6 +176,9 @@ STATIC_URL = '/static/'
 
 # 设置静态文件存放的目录
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# 日志器名称
+LOGGER_NAME = 'django'
 
 LOGGING = {
     'version': 1,
@@ -219,7 +228,7 @@ LOGGING = {
 
     # 日志器
     'loggers': {
-        'django': {  # 定义了一个名为django的日志器
+        LOGGER_NAME: {  # 定义了一个名为django的日志器
             'handlers': ['console', 'file'],  # 可以同时向终端与文件中输出日志
             'propagate': True,  # 是否继续传递日志信息
             'level': 'INFO',  # 日志器接收的最低日志级别

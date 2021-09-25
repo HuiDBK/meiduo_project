@@ -3,6 +3,7 @@
 # @Author: Hui
 # @Desc: { 发送短信验证码模块 }
 # @Date: 2021/09/24 21:49
+import json
 import random
 import logging
 from ronglian_sms_sdk import SmsSDK
@@ -45,9 +46,9 @@ def send_message(mobile, sms_code):
     mobile = test_mobile
     # 将短信验证码存入Redis，设置过期时间为sms_code_ttl
     # key   meiduo:sms:code:{13033221725}  123456 ttl
-    resp = sdk.sendMessage(tid, mobile, datas)
-
-    if resp.get('statusCode', None) == '000000':
+    resp_str = sdk.sendMessage(tid, mobile, datas)
+    resp_dict = json.loads(resp_str)
+    if resp_dict.get('statusCode', None) == '000000':
         # 发送成功
         return True
     else:
@@ -55,7 +56,7 @@ def send_message(mobile, sms_code):
 
 
 def main():
-    send_message()
+    send_message(test_mobile, generate_sms_code())
 
 
 if __name__ == '__main__':

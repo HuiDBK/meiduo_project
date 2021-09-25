@@ -69,8 +69,8 @@
                             <span class="error_tip" v-show="error_allow">请勾选用户协议</span>
 
                             {# 注册错误信息展示 #}
-                            {% if errmsg %}
-                                <span class="error_tip">{{ errmsg }}</span>
+                            {% if sms_code_errmsg %}
+                                <span class="error_tip">{{ sms_code_errmsg }}</span>
                             {% endif %}
 
                         </li>

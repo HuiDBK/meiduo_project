@@ -14,7 +14,9 @@ let vm = new Vue({
         image_code: '',
         mobile: '',
         sms_code: '',
+        sms_code_tip: '获取短信验证码',
         send_flag: false,   // 短信发送标记
+        register_errmsg: '',
         allow: false,
 
         // v-show
@@ -26,12 +28,14 @@ let vm = new Vue({
         error_image_code: false,
         error_sms_code: false,
 
+        // 控制展示注册时的错误信息
+        show_register_errmsg: false,
+
         // error_msg
         error_username_msg: '',
         error_mobile_msg: '',
         error_image_code_msg: '',
         error_sms_code_message: '',
-        sms_code_tip: '发送',
 
     },
 
