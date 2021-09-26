@@ -56,6 +56,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'meiduo_mall.urls'
 
 TEMPLATES = [
+
+    # jinja2 模板引擎
     {
         # 'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'BACKEND': 'django.template.backends.jinja2.Jinja2',  # 换成jinja2模板引擎
@@ -73,6 +75,22 @@ TEMPLATES = [
             'environment': 'meiduo_mall.utils.jinja2_env.jinja2_environment',
         },
     },
+
+    # django 模板引擎
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        ,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    }
 ]
 
 WSGI_APPLICATION = 'meiduo_mall.wsgi.application'
@@ -154,6 +172,12 @@ CACHES = {
     },
 }
 
+# celery 配置信息
+CELERY_BROKER_URL = 'redis://192.168.246.133:6379/'
+
+CELERY_RESULT_BACKEND = 'redis://192.168.246.133:6379/'
+
+CELERY_RESULT_SERIALIZER = 'json'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
