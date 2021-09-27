@@ -118,7 +118,9 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
+# 指定user认证模型类和认证后端
 AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = ['users.utils.UsernameMobileAuthBackend']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
