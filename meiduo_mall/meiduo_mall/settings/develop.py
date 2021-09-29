@@ -32,12 +32,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # 'meiduo_mall.apps.users'
 
     # 注册美多商城子应用
     'users',
     'contents',
-    'verifications'
+    'verifications',
+    'oauth'
 ]
 
 MIDDLEWARE = [
@@ -181,8 +183,15 @@ CELERY_RESULT_BACKEND = 'redis://192.168.246.133:6379/'
 
 CELERY_RESULT_SERIALIZER = 'json'
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
+# 指定登录的url, 访问没权限的页面自动跳转到登录页面
+LOGIN_URL = '/login'
+
+# 获取Gitee登录页url
+GITEE_CLIENT_ID = 'af47db9844c1be9689856551b3d224b10fce2c3d91cc3e5b1b9931537b360e9d'
+GITEE_SECRET = '80198c78cc01398da70737ce724aabcaa58c010888b780a9f5c2d0a102039ad8'
+GITEE_REDIRECT_URI = 'http://127.0.0.1:8000/gitee/oauth_back'
+GITEE_LOGIN_URL = f'https://gitee.com/oauth/authorize?client_id={GITEE_CLIENT_ID}' \
+                  f'&redirect_uri={GITEE_REDIRECT_URI}&response_type=code'
 
 LANGUAGE_CODE = 'zh-hans'
 
