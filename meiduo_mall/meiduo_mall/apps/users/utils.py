@@ -3,11 +3,13 @@
 # @Author: Hui
 # @Desc: { 用户工具包模块 }
 # @Date: 2021/09/27 20:55
-
 import re
 
 from .models import User
+from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from users import constants
 
 
 def get_user_by_account(account):
@@ -46,3 +48,16 @@ class UsernameMobileAuthBackend(ModelBackend):
         # 校验user是否存在并校验密码是否正确
         if user and user.check_password(password):
             return user
+
+
+def generate_verify_email_url(user):
+    """
+    生成邮箱验证链接
+    :param user: 当前登录用户
+    :return: verify_url
+    """
+    serializer = Serializer(settings.SECRET_KEY, expires_in=constants.VERIFY_EMAIL_TOKEN_EXPIRES)
+    data = {'user_id': user.id, 'email': user.email}
+    token = serializer.dumps(data).decode()
+    verify_url = settings.EMAIL_VERIFY_URL + '?token=' + token
+    return verify_url
