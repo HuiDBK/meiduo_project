@@ -61,3 +61,25 @@ def generate_verify_email_url(user):
     token = serializer.dumps(data).decode()
     verify_url = settings.EMAIL_VERIFY_URL + '?token=' + token
     return verify_url
+
+
+def check_verify_email_token(token):
+    """
+    验证token并提取user
+    :param token: 用户信息签名后的结果
+    :return: user, None
+    """
+    serializer = Serializer(settings.SECRET_KEY, expires_in=constants.VERIFY_EMAIL_TOKEN_EXPIRES)
+    try:
+        data = serializer.loads(token)
+    except Exception:
+        return None
+    else:
+        user_id = data.get('user_id')
+        email = data.get('email')
+        try:
+            user = User.objects.get(id=user_id, email=email)
+        except User.DoesNotExist:
+            return None
+        else:
+            return user
