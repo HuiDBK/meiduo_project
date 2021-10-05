@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^addresses/create/$', views.CreateAddressView.as_view()),
     url(r'^addresses/(?P<address_id>\d+)/$', views.UpdateDestroyAddressView.as_view()),
     url(r'^addresses/(?P<address_id>\d+)/default/$', views.DefaultAddressView.as_view()),
+    url(r'^addresses/(?P<address_id>\d+)/title/$', views.UpdateTitleAddressView.as_view()),
     url(r'^usernames/(?P<username>[a-zA-Z0-9_-]{5,20})/count/$', views.UsernameCountView.as_view()),
     url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$', views.MobileCountView.as_view()),
 ]
