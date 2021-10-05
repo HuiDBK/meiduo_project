@@ -17,3 +17,9 @@ class RedisKey(object):
 
     # 短信发送标记
     SMS_SEND_FLAG_KEY = 'meiduo:sms:send:flag:{mobile}'
+
+    # 省份数据 key
+    PROVINCES_KEY = 'meiduo:area:provinces'
+
+    # 市区数据 key
+    SUB_AREA_KEY = 'meiduo:sub_area:{area_id}'
