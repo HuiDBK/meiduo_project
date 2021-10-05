@@ -6,3 +6,6 @@
 
 # 邮箱校验令牌的有效期 10 分钟 单位/s
 VERIFY_EMAIL_TOKEN_EXPIRES = 10 * 60 * 60
+
+# 用户地址限制数量
+USER_ADDRESS_COUNTS_LIMIT = 20

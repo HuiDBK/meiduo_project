@@ -65,6 +65,7 @@
                 <a @click="show_add_site">新增收货地址</a>
                 <span>你已创建了<b>[[ addresses.length ]]</b>个收货地址，最多可创建<b>20</b>个</span>
             </div>
+
             <div class="site_con" v-for="(address, index) in addresses">
                 <div class="site_title">
                     <div v-if="edit_title_index===index">
@@ -77,7 +78,6 @@
                         <a @click="show_edit_title(index)" class="edit_title"></a>
                     </div>
                     <em v-if="address.id==default_address_id">默认地址</em>
-{#                    <em v-if="address.id===default_address_id">默认地址</em>#}
                     <span @click="delete_address(index)">×</span>
                 </div>
                 <ul class="site_list">

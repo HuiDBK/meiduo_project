@@ -197,11 +197,11 @@ let vm = new Vue({
                         responseType: 'json'
                     })
                         .then(response => {
-                            if (response.data.code == '0') {
+                            if (response.data.code === 0) {
                                 // 局部刷新界面：展示所有地址信息，将新的地址添加到头部
                                 this.addresses.splice(0, 0, response.data.address);
                                 this.is_show_edit = false;
-                            } else if (response.data.code == '4101') {
+                            } else if (response.data.code === 4101) {
                                 location.href = '/login/?next=/addresses/';
                             } else {
                                 alert(response.data.errmsg);
