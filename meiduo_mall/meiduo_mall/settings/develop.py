@@ -225,6 +225,13 @@ STATIC_URL = '/static/'
 # 设置静态文件存放的目录
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# 指定自定义的Django文件存储类
+DEFAULT_FILE_STORAGE = 'meiduo_mall.utils.fastdfs.fdfs_storage.FastDFSStorage'
+
+# FastDFS相关参数
+FDFS_BASE_URL = 'http://192.168.246.133:8888/'
+# FDFS_BASE_URL = 'http://image.meiduo.site:8888/'
+
 # 日志器名称
 LOGGER_NAME = 'django'
 
