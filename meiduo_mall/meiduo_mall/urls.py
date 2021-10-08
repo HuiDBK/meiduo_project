@@ -21,4 +21,7 @@ urlpatterns = [
 
     # 商品模块路由
     url(r'^', include(('goods.urls', 'goods'), namespace='goods')),
+
+    # 全文检索路由
+    url(r'^search/', include('haystack.urls')),
 ]
