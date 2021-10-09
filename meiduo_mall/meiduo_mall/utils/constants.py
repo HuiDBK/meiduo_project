@@ -23,3 +23,6 @@ class RedisKey(object):
 
     # 市区数据 key
     SUB_AREA_KEY = 'meiduo:sub_area:{area_id}'
+
+    # 用户商品浏览记录
+    HISTORY_BROWSE_KEY = 'meiduo:history:{user_id}'

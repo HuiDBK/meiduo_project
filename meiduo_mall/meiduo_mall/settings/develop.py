@@ -155,6 +155,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 DEFAULT_CACHE_ALIAS = 'default'
 SESSION_CACHE_ALIAS = "session"
 VERIFY_CODE_CACHE_ALIAS = 'verify_code'
+HISTORY_CACHE_ALIAS = 'history'
 
 # 缓存
 CACHES = {
@@ -180,6 +181,15 @@ CACHES = {
     VERIFY_CODE_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.246.133:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+
+    # 用户浏览记录缓存, 采用3号Redis库
+    HISTORY_CACHE_ALIAS: {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.246.133:6379/3",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }

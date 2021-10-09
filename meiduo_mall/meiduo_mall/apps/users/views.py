@@ -4,6 +4,7 @@ import logging
 
 from django import http
 from django.views import View
+from django.conf import settings
 from django.db import DatabaseError
 from django.contrib.auth import authenticate
 from django.contrib.auth import login, logout
@@ -13,9 +14,9 @@ from django.shortcuts import render, reverse, redirect
 from users import constants
 from users.models import User
 from users.models import Address
+from goods.models import SKU
 from users.utils import generate_verify_email_url
 from users.utils import check_verify_email_token
-from meiduo_mall import settings
 from meiduo_mall.utils.result import R
 from meiduo_mall.utils.constants import RedisKey
 from meiduo_mall.utils.enums import StatusCodeEnum
@@ -594,3 +595,61 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
         # # 响应密码修改结果：重定向到登录界面
         return response
+
+
+# /browse_histories/
+class UserBrowseHistory(LoginRequiredJSONMixin, View):
+    """用户浏览记录"""
+
+    def get(self, request):
+        """获取用户浏览记录"""
+        # 获取Redis存储的sku_id列表信息
+        redis_conn = get_redis_connection(settings.HISTORY_CACHE_ALIAS)
+        user_id = request.user.id
+        history_browse_key = RedisKey.HISTORY_BROWSE_KEY.format(user_id=user_id)
+        sku_ids = redis_conn.lrange(history_browse_key, 0, -1)
+
+        # 根据sku_ids列表数据，查询出商品sku信息
+        skus = []
+        for sku_id in sku_ids:
+            sku = SKU.objects.get(id=sku_id)
+            skus.append({
+                'id': sku.id,
+                'name': sku.name,
+                'default_image_url': sku.default_image.url,
+                'price': sku.price
+            })
+
+        context = R.ok().data()
+        context['skus'] = skus
+        return http.JsonResponse(context)
+
+    def post(self, request):
+        """保存用户浏览记录"""
+        # 接收参数
+        json_dict = json.loads(request.body.decode())
+        sku_id = json_dict.get('sku_id')
+
+        # 校验参数
+        SKU.objects.get(id=sku_id)
+
+        # 保存用户浏览数据
+        redis_conn = get_redis_connection(settings.HISTORY_CACHE_ALIAS)
+        pl = redis_conn.pipeline()
+        user_id = request.user.id
+
+        # sku商品历史浏览记录的 redis key
+        history_browse_key = RedisKey.HISTORY_BROWSE_KEY.format(user_id=user_id)
+
+        # 先去重
+        pl.lrem(history_browse_key, 0, sku_id)
+        # 再存储
+        pl.lpush(history_browse_key, sku_id)
+        # 最后截取
+        pl.ltrim(history_browse_key, 0, 4)
+        # 执行管道
+        pl.execute()
+
+        # 响应结果
+        context = R.ok().data()
+        return http.JsonResponse(context)
