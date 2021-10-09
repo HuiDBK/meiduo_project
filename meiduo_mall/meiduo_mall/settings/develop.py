@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'areas',
     'goods',
     'haystack',  # 全文检索
+    'carts',
 ]
 
 MIDDLEWARE = [
@@ -151,18 +152,22 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
+# redis 缓存 ip/port 信息
+REDIS_URI = f"redis://192.168.246.133:6379"
+
 # 缓存别名
 DEFAULT_CACHE_ALIAS = 'default'
 SESSION_CACHE_ALIAS = "session"
 VERIFY_CODE_CACHE_ALIAS = 'verify_code'
 HISTORY_CACHE_ALIAS = 'history'
+CARTS_CACHE_ALIAS = 'carts'
 
 # 缓存
 CACHES = {
     # 默认采用0号Redis库。
     DEFAULT_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://192.168.246.133:6379/0",
+        "LOCATION": f"{REDIS_URI}/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -171,7 +176,7 @@ CACHES = {
     # session, 采用1号Redis库
     SESSION_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://192.168.246.133:6379/1",
+        "LOCATION": f"{REDIS_URI}/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -180,7 +185,7 @@ CACHES = {
     # 校验码(图片、短信验证码), 采用2号Redis库
     VERIFY_CODE_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://192.168.246.133:6379/2",
+        "LOCATION": f"{REDIS_URI}/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -189,7 +194,16 @@ CACHES = {
     # 用户浏览记录缓存, 采用3号Redis库
     HISTORY_CACHE_ALIAS: {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://192.168.246.133:6379/3",
+        "LOCATION": f"{REDIS_URI}/3",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+
+    # 购物车缓存, 采用4号Redis库
+    CARTS_CACHE_ALIAS: {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"{REDIS_URI}/4",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -197,9 +211,9 @@ CACHES = {
 }
 
 # celery 配置信息
-CELERY_BROKER_URL = 'redis://192.168.246.133:6379/'
+CELERY_BROKER_URL = f'{REDIS_URI}/'
 
-CELERY_RESULT_BACKEND = 'redis://192.168.246.133:6379/'
+CELERY_RESULT_BACKEND = f'{REDIS_URI}/'
 
 CELERY_RESULT_SERIALIZER = 'json'
 
