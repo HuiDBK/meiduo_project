@@ -305,3 +305,52 @@ class CartsView(View):
                 # 响应结果并将购物车数据写入到cookie
                 response.set_cookie(CookieKey.CARTS_KEY, cookie_cart_str, max_age=constants.CARTS_COOKIE_EXPIRES)
             return response
+
+
+# /carts/selection/
+class CartsSelectAllView(View):
+    """全选购物车"""
+
+    def put(self, request):
+        # 接收参数
+        json_dict = json.loads(request.body.decode())
+        selected = json_dict.get('selected', True)
+
+        # 校验参数
+        if selected:
+            if not isinstance(selected, bool):
+                return http.HttpResponseForbidden('参数selected有误')
+
+        # 判断用户是否登录
+        user = request.user
+        if user is not None and user.is_authenticated:
+            # 用户已登录，操作redis购物车
+            redis_conn = get_redis_connection(settings.CARTS_CACHE_ALIAS)
+
+            user_carts_key = RedisKey.USER_CARTS_KEY.format(user_id=user.id)
+            cart = redis_conn.hgetall(user_carts_key)
+
+            carts_selected_key = RedisKey.CARTS_SELECTED_KEY.format(user_id=user.id)
+            sku_id_list = cart.keys()
+            if selected:
+                # 全选
+                redis_conn.sadd(carts_selected_key, *sku_id_list)
+            else:
+                # 取消全选
+                redis_conn.srem(carts_selected_key, *sku_id_list)
+
+            context = R.ok().data()
+            return http.JsonResponse(context)
+        else:
+            # 用户已登录，操作cookie购物车
+            cart = request.COOKIES.get(CookieKey.CARTS_KEY)
+            context = R.ok().data()
+            response = http.JsonResponse(context)
+            if cart is not None:
+                cart = pickle.loads(base64.b64decode(cart.encode()))
+                for sku_id in cart:
+                    cart[sku_id]['selected'] = selected
+                cookie_cart = base64.b64encode(pickle.dumps(cart)).decode()
+                response.set_cookie(CookieKey.CARTS_KEY, cookie_cart, max_age=constants.CARTS_COOKIE_EXPIRES)
+
+            return response
