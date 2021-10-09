@@ -354,3 +354,77 @@ class CartsSelectAllView(View):
                 response.set_cookie(CookieKey.CARTS_KEY, cookie_cart, max_age=constants.CARTS_COOKIE_EXPIRES)
 
             return response
+
+
+# /carts/simple/
+class CartsSimpleView(View):
+    """商品页面右上角购物车"""
+
+    def get(self, request):
+        # 判断用户是否登录
+        user = request.user
+        if user.is_authenticated:
+            # 用户已登录，查询Redis购物车
+            cart_dict = self.get_redis_carts(user)
+        else:
+            # 用户未登录，查询cookie购物车
+            cart_dict = self.get_cookie_carts(request)
+
+        context = self.build_simple_carts_json(cart_dict)
+        return http.JsonResponse(context)
+
+    @staticmethod
+    def build_simple_carts_json(cart_dict):
+        """
+        构造简单购物车JSON数据
+        :param cart_dict: 购物车数据字典
+        :return:
+        """
+        cart_skus = []
+        sku_ids = cart_dict.keys()
+        skus = SKU.objects.filter(id__in=sku_ids)
+        for sku in skus:
+            cart_skus.append({
+                'id': sku.id,
+                'name': sku.name,
+                'count': cart_dict.get(sku.id).get('count'),
+                'default_image_url': sku.default_image.url
+            })
+        # 响应json列表数据
+        context = R.ok().data()
+        context['cart_skus'] = cart_skus
+        return context
+
+    @staticmethod
+    def get_cookie_carts(request):
+        """
+        获取 cookie 中的购物车数据
+        :param request: 当前请求对象
+        :return:
+        """
+        cart_dict = {}
+        cart_str = request.COOKIES.get(CookieKey.CARTS_KEY)
+        if cart_str:
+            cart_dict = pickle.loads(base64.b64decode(cart_str.encode()))
+        return cart_dict
+
+    @staticmethod
+    def get_redis_carts(user):
+        """
+        获取 redis 购物车数据
+        :param user: 登录用户
+        :return:
+        """
+        redis_conn = get_redis_connection(settings.CARTS_CACHE_ALIAS)
+        user_carts_key = RedisKey.USER_CARTS_KEY.format(user_id=user.id)
+        carts_selected_key = RedisKey.CARTS_SELECTED_KEY.format(user_id=user.id)
+        redis_cart = redis_conn.hgetall(user_carts_key)
+        cart_selected = redis_conn.smembers(carts_selected_key)
+        # 将redis中的两个数据统一格式，跟cookie中的格式一致，方便统一查询
+        cart_dict = {}
+        for sku_id, count in redis_cart.items():
+            cart_dict[int(sku_id)] = {
+                'count': int(count),
+                'selected': sku_id in cart_selected
+            }
+        return cart_dict
