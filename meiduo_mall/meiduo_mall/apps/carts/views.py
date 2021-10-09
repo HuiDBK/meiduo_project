@@ -13,6 +13,7 @@ from carts import constants
 from meiduo_mall.utils.result import R
 from meiduo_mall.utils.constants import RedisKey
 from meiduo_mall.utils.constants import CookieKey
+from meiduo_mall.utils.constants import HtmlTemplate
 
 
 # /carts/
@@ -71,7 +72,7 @@ class CartsView(View):
         }
 
         # 渲染购物车页面
-        return render(request, 'carts/cart.html', context)
+        return render(request, HtmlTemplate.CART_LIST_HTML, context)
 
     def post(self, request):
         """添加购物车"""

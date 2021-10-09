@@ -20,6 +20,7 @@ from users.utils import check_verify_email_token
 from meiduo_mall.utils.result import R
 from meiduo_mall.utils.constants import RedisKey
 from meiduo_mall.utils.enums import StatusCodeEnum
+from meiduo_mall.utils.constants import HtmlTemplate
 from meiduo_mall.utils.views import LoginRequiredMixin
 from meiduo_mall.utils.views import LoginRequiredJSONMixin
 from meiduo_mall.utils.exceptions import BusinessException
@@ -43,7 +44,7 @@ class RegisterView(View):
 
     def get(self, request):
         """提供注册页面"""
-        return render(request, 'users/register.html')
+        return render(request, HtmlTemplate.REGISTER_HTML)
 
     def verify_params(self, request):
         """
@@ -135,7 +136,7 @@ class LoginView(View):
         :param request: 请求对象
         :return: 登录界面
         """
-        return render(request, 'users/login.html')
+        return render(request, HtmlTemplate.LOGIN_HTML)
 
     def post(self, request):
         """
@@ -255,7 +256,7 @@ class UserInfoView(LoginRequiredMixin, View):
             'email': request.user.email,
             'email_active': request.user.email_active
         }
-        return render(request, 'users/user_center_info.html', context)
+        return render(request, HtmlTemplate.USER_CENTER_INFO_HTML, context)
 
 
 # /emails/
@@ -351,7 +352,7 @@ class AddressView(LoginRequiredMixin, View):
             'addresses': address_dict_list,
         }
 
-        return render(request, 'users/user_center_site.html', context)
+        return render(request, HtmlTemplate.USER_CENTER_ADDRESS_HTML, context)
 
 
 # /addresses/create/
@@ -563,7 +564,7 @@ class ChangePasswordView(LoginRequiredMixin, View):
 
     def get(self, request):
         """展示修改密码界面"""
-        return render(request, 'users/user_center_pass.html')
+        return render(request, HtmlTemplate.USER_CENTER_PASS_HTML)
 
     def post(self, request):
         """实现修改密码逻辑"""

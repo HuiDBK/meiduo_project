@@ -15,6 +15,7 @@ from oauth.utils import generate_access_token
 from oauth.utils import get_gitee_access_token
 from meiduo_mall.utils.constants import RedisKey
 from meiduo_mall.utils.enums import StatusCodeEnum
+from meiduo_mall.utils.constants import HtmlTemplate
 from meiduo_mall.utils.exceptions import BusinessException
 
 
@@ -43,7 +44,7 @@ class GiteeOAuthBackView(View):
             # 未绑定, 跳转到美多商城用户信息绑定
             access_token_id = generate_access_token(gitee_uid)
             context = {'access_token_id': access_token_id}
-            return render(request, 'oauth/oauth_callback.html', context)
+            return render(request, HtmlTemplate.OAUTH_CALLBACK_HTML, context)
         else:
             # 已绑定用户状态保持
             user = gitee_user.user
@@ -85,15 +86,15 @@ class GiteeOAuthBackView(View):
         sms_code_server = redis_conn.get(sms_code_key)
 
         if sms_code_server is None:
-            return render(request, 'oauth_callback.html', {'sms_code_errmsg': '无效的短信验证码'})
+            return render(request, HtmlTemplate.OAUTH_CALLBACK_HTML, {'sms_code_errmsg': '无效的短信验证码'})
 
         if sms_code_client != sms_code_server.decode():
-            return render(request, 'oauth_callback.html', {'sms_code_errmsg': '输入短信验证码有误'})
+            return render(request, HtmlTemplate.OAUTH_CALLBACK_HTML, {'sms_code_errmsg': '输入短信验证码有误'})
 
         # 判断openid是否有效：错误提示放在sms_code_errmsg位置
         gitee_uid = check_access_token(access_token)
         if not gitee_uid:
-            return render(request, 'oauth_callback.html', {'openid_errmsg': '无效的openid'})
+            return render(request, HtmlTemplate.OAUTH_CALLBACK_HTML, {'openid_errmsg': '无效的openid'})
 
         # 保存注册数据
         try:
@@ -104,7 +105,7 @@ class GiteeOAuthBackView(View):
         else:
             # 如果用户存在，检查用户密码
             if not user.check_password(pwd):
-                return render(request, 'oauth_callback.html', {'account_errmsg': '用户名或密码错误'})
+                return render(request, HtmlTemplate.OAUTH_CALLBACK_HTML, {'account_errmsg': '用户名或密码错误'})
 
         # 将用户绑定openid
         OAuthGiteeUser.objects.create(gitee_uid=gitee_uid, user=user)

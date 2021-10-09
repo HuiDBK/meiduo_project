@@ -1,9 +1,9 @@
-from collections import OrderedDict
-
 from django.views import View
 from django.shortcuts import render
 from contents.utils import get_categories
 from contents.models import ContentCategory
+
+from meiduo_mall.utils.constants import HtmlTemplate
 
 
 # /
@@ -25,4 +25,4 @@ class IndexView(View):
             'categories': categories,
             'contents': contents,
         }
-        return render(request, 'index.html', context)
+        return render(request, HtmlTemplate.INDEX_HTML, context)

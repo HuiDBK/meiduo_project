@@ -1,15 +1,17 @@
 from datetime import datetime
 
-from django.utils import timezone  # 处理时间的工具
-from django.shortcuts import render
-from django.views import View
 from django import http
+from django.views import View
+from django.utils import timezone
+from django.shortcuts import render
 from django.core.paginator import Paginator
-from contents.utils import get_categories
-from goods.utils import get_breadcrumb
 from goods import models
 from goods import constants
+from contents.utils import get_categories
+from goods.utils import get_breadcrumb
+
 from meiduo_mall.utils.result import R
+from meiduo_mall.utils.constants import HtmlTemplate
 
 
 # /list/(?P<category_id>\d+)/(?P<page_num>\d+)/
@@ -64,7 +66,7 @@ class ListView(View):
             'total_page': total_page,  # 总页数
             'page_num': page_num,  # 当前页码
         }
-        return render(request, 'goods/list.html', context)
+        return render(request, HtmlTemplate.GOODS_LIST_HTML, context)
 
 
 # /hot/(?P<category_id>\d+)/
@@ -101,7 +103,7 @@ class DetailView(View):
         try:
             sku = models.SKU.objects.get(id=sku_id)
         except models.SKU.DoesNotExist:
-            return render(request, '404.html')
+            return render(request, HtmlTemplate.ERRORS_404_HTML)
 
         # 查询商品频道分类
         categories = get_categories()
@@ -155,7 +157,7 @@ class DetailView(View):
             'sku': sku,
             'specs': goods_specs,
         }
-        return render(request, 'goods/detail.html', context)
+        return render(request, HtmlTemplate.GOODS_DETAIL_HTML, context)
 
 
 # /detail/visit/(?P<category_id>\d+)/
