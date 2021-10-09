@@ -8,8 +8,8 @@ from django.conf import settings
 from django.shortcuts import render
 from django_redis import get_redis_connection
 from goods.models import SKU
-
 from carts import constants
+
 from meiduo_mall.utils.result import R
 from meiduo_mall.utils.constants import RedisKey
 from meiduo_mall.utils.constants import CookieKey

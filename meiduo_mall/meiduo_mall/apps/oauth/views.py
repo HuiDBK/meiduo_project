@@ -8,12 +8,16 @@ from django_redis import get_redis_connection
 from django.shortcuts import redirect, render
 
 from users.models import User
+from users.constants import USERNAME_COOKIE_EXPIRES
 from oauth.models import OAuthGiteeUser
 from oauth.utils import get_gitee_user_id
 from oauth.utils import check_access_token
 from oauth.utils import generate_access_token
 from oauth.utils import get_gitee_access_token
+from carts.utils import merge_cart_cookie_to_redis
+
 from meiduo_mall.utils.constants import RedisKey
+from meiduo_mall.utils.constants import CookieKey
 from meiduo_mall.utils.enums import StatusCodeEnum
 from meiduo_mall.utils.constants import HtmlTemplate
 from meiduo_mall.utils.exceptions import BusinessException
@@ -55,8 +59,10 @@ class GiteeOAuthBackView(View):
             response = redirect(next)
 
             # 登录时用户名写入到cookie，有效期15天
-            response.set_cookie('username', user.username, max_age=3600 * 24 * 15)
+            response.set_cookie(CookieKey.USERNAME_KEY, user.username, max_age=USERNAME_COOKIE_EXPIRES)
 
+            # 合并购物车
+            response = merge_cart_cookie_to_redis(request=request, user=user, response=response)
             return response
 
     def post(self, request):
@@ -118,7 +124,10 @@ class GiteeOAuthBackView(View):
         response = redirect(next)
 
         # 登录时用户名写入到cookie，有效期15天
-        response.set_cookie('username', user.username, max_age=3600 * 24 * 15)
+        response.set_cookie(CookieKey.USERNAME_KEY, user.username, max_age=USERNAME_COOKIE_EXPIRES)
+
+        # 合并购物车
+        response = merge_cart_cookie_to_redis(request=request, user=user, response=response)
 
         return response
 

@@ -11,14 +11,17 @@ from django.contrib.auth import login, logout
 from django_redis import get_redis_connection
 from django.shortcuts import render, reverse, redirect
 
+from goods.models import SKU
 from users import constants
 from users.models import User
 from users.models import Address
-from goods.models import SKU
 from users.utils import generate_verify_email_url
 from users.utils import check_verify_email_token
+from carts.utils import merge_cart_cookie_to_redis
+
 from meiduo_mall.utils.result import R
 from meiduo_mall.utils.constants import RedisKey
+from meiduo_mall.utils.constants import CookieKey
 from meiduo_mall.utils.enums import StatusCodeEnum
 from meiduo_mall.utils.constants import HtmlTemplate
 from meiduo_mall.utils.views import LoginRequiredMixin
@@ -165,7 +168,7 @@ class LoginView(View):
         # 认证登录用户
         user = authenticate(username=username, password=password)
         if user is None:
-            return render(request, 'users/login.html', {'account_errmsg': '用户名或密码错误'})
+            return render(request, HtmlTemplate.LOGIN_HTML, {'account_errmsg': '用户名或密码错误'})
 
         # 实现状态保持
         login(request, user)
@@ -188,7 +191,10 @@ class LoginView(View):
         # 登录时用户名写入到cookie，有效期15天
         # 为了实现在首页的右上角展示用户名信息，我们需要将用户名缓存到cookie中
         # response.set_cookie('key', 'val', 'expiry')
-        response.set_cookie('username', user.username, max_age=3600 * 24 * 15)
+        response.set_cookie(CookieKey.USERNAME_KEY, user.username, max_age=constants.USERNAME_COOKIE_EXPIRES)
+
+        # 合并购物车
+        response = merge_cart_cookie_to_redis(request=request, user=user, response=response)
 
         return response
 
