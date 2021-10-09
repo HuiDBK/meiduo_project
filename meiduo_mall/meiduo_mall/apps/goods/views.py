@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from django.utils import timezone  # 处理时间的工具
 from django.shortcuts import render
 from django.views import View
 from django import http
@@ -153,3 +156,33 @@ class DetailView(View):
             'specs': goods_specs,
         }
         return render(request, 'goods/detail.html', context)
+
+
+# /detail/visit/(?P<category_id>\d+)/
+class DetailVisitView(View):
+    """详情页分类商品访问量"""
+
+    def post(self, request, category_id):
+        """记录分类商品访问量"""
+        try:
+            category = models.GoodsCategory.objects.get(id=category_id)
+        except models.GoodsCategory.DoesNotExist:
+            return http.HttpResponseForbidden('缺少必传参数')
+
+        # 获取今天的日期
+        t = timezone.localtime()
+        today_str = '%d-%02d-%02d' % (t.year, t.month, t.day)
+        today_date = datetime.strptime(today_str, '%Y-%m-%d')
+        try:
+            # 查询今天该类别的商品的访问量
+            counts_data = category.goodsvisitcount_set.get(date=today_date)
+        except models.GoodsVisitCount.DoesNotExist:
+            # 如果该类别的商品在今天没有过访问记录，就新建一个访问记录
+            counts_data = models.GoodsVisitCount()
+
+        counts_data.category = category
+        counts_data.count += 1
+        counts_data.save()
+
+        context = R.ok().data()
+        return http.JsonResponse(context)
