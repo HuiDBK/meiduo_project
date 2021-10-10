@@ -64,6 +64,7 @@ class HtmlTemplate(object):
     """
     # 订单结算界面
     ORDER_PLACE_HTML = 'orders/place_order.html'
+    ORDER_SUCCESS_HTML = 'orders/order_success.html'
 
     """
     项目错误 html 模板
