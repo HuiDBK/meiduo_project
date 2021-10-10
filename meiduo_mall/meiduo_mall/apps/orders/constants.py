@@ -6,3 +6,6 @@
 
 # 订单邮费
 ORDER_FREIGHT = '10.00'
+
+# 订单每页显示 5 条
+ORDERS_LIST_LIMIT = 5

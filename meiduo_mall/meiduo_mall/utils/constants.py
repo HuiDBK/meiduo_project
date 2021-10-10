@@ -27,7 +27,8 @@ class HtmlTemplate(object):
     # 用户中心收货地址
     USER_CENTER_ADDRESS_HTML = 'users/user_center_site.html'
 
-    # 用户修全部订单
+    # 用户中心订单页面
+    USER_CENTER_ORDER = 'users/user_center_order.html'
 
     # 用户中心修改密码
     USER_CENTER_PASS_HTML = 'users/user_center_pass.html'
@@ -64,6 +65,8 @@ class HtmlTemplate(object):
     """
     # 订单结算界面
     ORDER_PLACE_HTML = 'orders/place_order.html'
+
+    # 订单提交成功页面
     ORDER_SUCCESS_HTML = 'orders/order_success.html'
 
     """
