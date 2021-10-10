@@ -60,6 +60,12 @@ class HtmlTemplate(object):
     CART_LIST_HTML = 'carts/cart.html'
 
     """
+    订单模块
+    """
+    # 订单结算界面
+    ORDER_PLACE_HTML = 'orders/place_order.html'
+
+    """
     项目错误 html 模板
     """
     ERRORS_404_HTML = 'errors/404.html'
