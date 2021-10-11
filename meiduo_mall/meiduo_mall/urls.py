@@ -30,4 +30,7 @@ urlpatterns = [
 
     # 订单模块路由
     url(r'^', include(('orders.urls', 'orders'), namespace='orders')),
+
+    # 阿里支付模块路由
+    url(r'^', include(('payment.urls', 'payment'), namespace='payment')),
 ]

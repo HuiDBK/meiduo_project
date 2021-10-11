@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'haystack',  # 全文检索
     'carts',
     'orders',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -217,6 +218,21 @@ CELERY_BROKER_URL = f'{REDIS_URI}/'
 CELERY_RESULT_BACKEND = f'{REDIS_URI}/'
 
 CELERY_RESULT_SERIALIZER = 'json'
+
+# 阿里支付宝沙箱应用ID
+ALIPAY_APPID = '2021000116684030'
+
+# 应用私钥文件路径
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/app_private_key.pem')
+
+# 阿里支付公钥路径
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/alipay_public_key.pem')
+
+# 设置阿里沙箱调试模式
+ALIPAY_DEBUG = True
+
+ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
+ALIPAY_RETURN_URL = 'http://www.meiduo.site:8000/payment/status/'
 
 # 指定登录的url, 访问没权限的页面自动跳转到登录页面
 LOGIN_URL = '/login'
