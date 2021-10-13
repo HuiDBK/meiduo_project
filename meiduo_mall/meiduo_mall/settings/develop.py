@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'areas',
     'goods',
     'haystack',  # 全文检索
+    'django_crontab',  # 定时任务
     'carts',
     'orders',
     'payment',
@@ -296,6 +297,16 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # 全文检索每页数据个数
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 5
+
+# 定时器配置
+CRONJOBS = [
+    # 每1分钟生成一次首页静态文件
+    ('*/1 * * * *', 'contents.crons.generate_static_index_html',
+     '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'logs/crontab.log'))
+]
+
+# 指定中文编码格式
+CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'
 
 # 日志器名称
 LOGGER_NAME = 'django'
