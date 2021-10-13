@@ -131,7 +131,25 @@ pip install -r requirements.txt
 
 <br/>
 
-## 项目部署
+## 项目环境搭建与部署
+
+一、准备项目的 `Python` 虚拟环境
+
+<br/>
+
+二、数据库环境
+
+MySQL
+
+Redis
+
+<br/>
+
+三、docker 搭建项目环境
+
+<br/>
+
+四、nginx + uwsgi 部署项目
 
 <br/>
 

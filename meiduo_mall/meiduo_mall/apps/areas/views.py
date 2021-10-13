@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views import View
 from django.core.cache import cache
 from django.http import JsonResponse

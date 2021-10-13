@@ -6,7 +6,7 @@ import django
 sys.path.insert(0, '../')
 
 if not os.getenv('DJANGO_SETTINGS_MODULE'):
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'meiduo_mall.settings.dev'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'meiduo_mall.settings.develop'
 
 django.setup()
 
@@ -14,8 +14,8 @@ from django.conf import settings
 from django.template import loader
 
 from goods import models
-from contents.utils import get_categories
 from goods.utils import get_breadcrumb
+from contents.utils import get_categories
 from meiduo_mall.utils.constants import HtmlTemplate
 
 
@@ -84,7 +84,8 @@ def generate_static_sku_detail_html(sku_id):
     template = loader.get_template(HtmlTemplate.GOODS_DETAIL_HTML)
     html_text = template.render(context)
     file_path = os.path.join(settings.STATICFILES_DIRS[0], 'details/' + str(sku_id) + '.html')
-    with open(file_path, 'w') as f:
+
+    with open(file_path, mode='w', encoding='utf-8') as f:
         f.write(html_text)
 
 
