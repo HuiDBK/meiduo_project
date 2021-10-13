@@ -70,6 +70,12 @@ class HtmlTemplate(object):
     ORDER_SUCCESS_HTML = 'orders/order_success.html'
 
     """
+    支付模块
+    """
+    # 订单支付成功页面
+    PAY_SUCCESS_HTML = 'payment/pay_success.html'
+
+    """
     项目错误 html 模板
     """
     ERRORS_404_HTML = 'errors/404.html'

@@ -231,8 +231,9 @@ ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/payment/keys/alipay_public
 # 设置阿里沙箱调试模式
 ALIPAY_DEBUG = True
 
+# 阿里支付页面地址
 ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
-ALIPAY_RETURN_URL = 'http://www.meiduo.site:8000/payment/status/'
+ALIPAY_RETURN_URL = 'http://127.0.0.1:8000/payment/status/'
 
 # 指定登录的url, 访问没权限的页面自动跳转到登录页面
 LOGIN_URL = '/login'
