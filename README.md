@@ -56,7 +56,13 @@ pip install -r requirements.txt
 
 <br/>
 
-## 项目模块划分
+## 项目功能图
+
+![项目功能图](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0c806fca265242c4a299230e78885976~tplv-k3u1fbpfcp-watermark.image?)
+
+<br/>
+
+## 项目开发模块划分
 
 ### 系统前台
 
