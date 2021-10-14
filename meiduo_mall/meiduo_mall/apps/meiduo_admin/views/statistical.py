@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-from datetime import timedelta
+from datetime import date, timedelta
 from django.utils import timezone
 
 from meiduo_admin.serialziers.statistical import UserGoodsCountSerializer
@@ -9,9 +9,10 @@ from users.models import User
 from goods.models import GoodsVisitCount
 
 
+# /statistical/total_count/
 class UserCountView(APIView):
     """
-        用户总量统计
+    用户总量统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
@@ -28,9 +29,10 @@ class UserCountView(APIView):
         })
 
 
+# /statistical/day_increment/
 class UserDayCountView(APIView):
     """
-        日增用户统计
+    日增用户统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
@@ -47,9 +49,10 @@ class UserDayCountView(APIView):
         })
 
 
+# /statistical/day_active/
 class UserDayActiveCountView(APIView):
     """
-        日活用户统计
+    日活用户统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
@@ -66,16 +69,17 @@ class UserDayActiveCountView(APIView):
         })
 
 
+# /statistical/day_orders/
 class UserDayOrdersCountView(APIView):
     """
-        下单用户统计
+    下单用户统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
 
     def get(self, request):
         # 1、获取当天日期
-        now_date = timezone.now()
+        now_date = date.today()
         # 2、获取当天下订单用户总量
         count = len(set(User.objects.filter(orders__create_time__gte=now_date)))
 
@@ -86,9 +90,10 @@ class UserDayOrdersCountView(APIView):
         })
 
 
+# /statistical/month_increment/
 class UserMonthCountView(APIView):
     """
-        月增用户统计
+    月增用户统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
@@ -115,16 +120,17 @@ class UserMonthCountView(APIView):
         return Response(data_list)
 
 
+# /statistical/goods_day_views/
 class UserGoodsCountView(APIView):
     """
-        日分类商品访问量统计
+    日分类商品访问量统计
     """
     # 权限指定
     permission_classes = [IsAdminUser]
 
     def get(self, request):
         # 1、获取当天日期
-        now_date = timezone.now()
+        now_date = date.today()
         # 2、获取当天分类访问数量
         goods = GoodsVisitCount.objects.filter(date__gte=now_date)
 
