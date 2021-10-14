@@ -5,6 +5,7 @@
 # @Date: 2021/05/20 16:09
 import os
 import sys
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'payment',
+    'meiduo_admin',  # 美多后台管理模块
+    'corsheaders',  # 跨域请求扩展
 ]
 
 MIDDLEWARE = [
@@ -63,7 +66,33 @@ MIDDLEWARE = [
 
     # 指定项目异常中间件
     'meiduo_mall.utils.middlewares.ExceptionMiddleware'
+
+    # 跨域请求中间件
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# 配置跨域请求白名单
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+    'localhost:8080',
+    'www.meiduo.site:8080',
+    'api.meiduo.site:8000'
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+# jwt 认证有效期 1天
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
+
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
 ROOT_URLCONF = 'meiduo_mall.urls'
 
