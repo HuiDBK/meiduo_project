@@ -65,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # 指定项目异常中间件
-    'meiduo_mall.utils.middlewares.ExceptionMiddleware'
+    'meiduo_mall.utils.middlewares.ExceptionMiddleware',
 
     # 跨域请求中间件
     'corsheaders.middleware.CorsMiddleware',
@@ -73,10 +73,10 @@ MIDDLEWARE = [
 
 # 配置跨域请求白名单
 CORS_ORIGIN_WHITELIST = (
-    '127.0.0.1:8080',
-    'localhost:8080',
-    'www.meiduo.site:8080',
-    'api.meiduo.site:8000'
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://www.meiduo.site:8080',
+    'http://api.meiduo.site:8000'
 )
 
 REST_FRAMEWORK = {
@@ -90,6 +90,7 @@ REST_FRAMEWORK = {
 # jwt 认证有效期 1天
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'meiduo_admin.utils.jwt_response_payload_handler',
 }
 
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie

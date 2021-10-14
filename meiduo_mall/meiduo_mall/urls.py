@@ -33,4 +33,7 @@ urlpatterns = [
 
     # 阿里支付模块路由
     url(r'^', include(('payment.urls', 'payment'), namespace='payment')),
+
+    # 美多后台管理模块路由
+    url(r'^meiduo_admin/', include('meiduo_admin.urls')),
 ]
