@@ -96,18 +96,21 @@ class UserMonthCountView(APIView):
     def get(self, request):
         # 1、获取当天日期
         now_date = timezone.now()
+
         # 2、获取一个月之前的日期
         begin_date = now_date - timedelta(days=59)
         data_list = []
         for i in range(60):
             # 起始日期
-            indxe_date = begin_date + timedelta(days=i)
+            index_date = begin_date + timedelta(days=i)
             # 第二天的日期(起始日期的下一天日期)
             next_date = begin_date + timedelta(days=i + 1)
-            count = User.objects.filter(date_joined__gte=indxe_date, date_joined__lt=next_date).count()
+            count = User.objects.filter(date_joined__gte=index_date, date_joined__lt=next_date).count()
+
+            index_date = index_date.strftime('%Y-%m-%d')
             data_list.append({
                 'count': count,
-                'date': indxe_date
+                'date': index_date
             })
         return Response(data_list)
 
