@@ -19,6 +19,7 @@ celery_app.config_from_object('celery_tasks.config')
 # 配置 celery 异步任务包，进行自动注册 celery 异步任务
 task_packages = [
     'celery_tasks.sms',
-    'celery_tasks.email'
+    'celery_tasks.email',
+    'celery_tasks.static_file',
 ]
 celery_app.autodiscover_tasks(packages=task_packages)
