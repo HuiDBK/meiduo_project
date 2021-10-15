@@ -15,6 +15,7 @@ class User(AbstractUser):
         db_table = 'meiduo_user'
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.username

@@ -1,8 +1,8 @@
 <template>
   <div class="specs_wrap">
-    <BreadCrumb crumb="商品规格管理"></BreadCrumb>  
+    <BreadCrumb crumb="商品规格管理"></BreadCrumb>
     <div class="top_bar">
-       <AddSpecs @fnResetTable="fnGetData(1)"></AddSpecs>       
+       <AddSpecs @fnResetTable="fnGetData(1)"></AddSpecs>
     </div>
     <SpecsTable :specs="aSpecsList" @fnResetTable="fnGetData(1)"></SpecsTable>
     <el-pagination
@@ -55,13 +55,14 @@ export default {
           }
       })
       .then(dat=>{
-          this.aSpecsList = dat.data.list;
+          this.aSpecsList = dat.data.lists;
+          this.aSpecsList.sort((item1, item2) => item1.spu_id - item2.spu_id)
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);

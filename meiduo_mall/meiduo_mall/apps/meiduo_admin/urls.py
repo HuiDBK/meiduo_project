@@ -5,8 +5,10 @@
 # @Date: 2021/10/14 15:05
 from django.conf.urls import url
 from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.routers import DefaultRouter
 from meiduo_admin.views import statistical
 from meiduo_admin.views import users
+from meiduo_admin.views import specs
 
 urlpatterns = [
 
@@ -29,4 +31,13 @@ urlpatterns = [
 
     # ------------- 用户管理路由 --------------
     url(r'^users/$', users.UserView.as_view()),
+
+    # ------------规格路由表-----------
+    url(r'^goods/simple/$', specs.SpecsView.as_view({'get': 'simple'})),
 ]
+
+
+# ----------规格表路由------
+router = DefaultRouter()
+router.register('goods/specs', specs.SpecsView, basename='specs')
+urlpatterns += router.urls

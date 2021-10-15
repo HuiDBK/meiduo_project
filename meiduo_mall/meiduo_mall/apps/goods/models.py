@@ -78,6 +78,7 @@ class SPU(BaseModel):
         db_table = 'meiduo_spu'
         verbose_name = '商品SPU'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -130,9 +131,13 @@ class SPUSpecification(BaseModel):
         db_table = 'meiduo_spu_specification'
         verbose_name = '商品SPU规格'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return '%s: %s' % (self.spu.name, self.name)
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class SpecificationOption(BaseModel):
@@ -144,6 +149,9 @@ class SpecificationOption(BaseModel):
         db_table = 'meiduo_specification_option'
         verbose_name = '规格选项'
         verbose_name_plural = verbose_name
+
+    def __repr__(self):
+        return self.__str__()
 
     def __str__(self):
         return '%s - %s' % (self.spec, self.value)
@@ -159,6 +167,9 @@ class SKUSpecification(BaseModel):
         db_table = 'meiduo_sku_specification'
         verbose_name = 'SKU规格'
         verbose_name_plural = verbose_name
+
+    def __repr__(self):
+        return self.__str__()
 
     def __str__(self):
         return '%s: %s - %s' % (self.sku, self.spec.name, self.option.value)
