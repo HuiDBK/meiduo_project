@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 from meiduo_admin.views import statistical
 from meiduo_admin.views import users
 from meiduo_admin.views import specs
+from meiduo_admin.views import images
 
 urlpatterns = [
 
@@ -32,12 +33,20 @@ urlpatterns = [
     # ------------- 用户管理路由 --------------
     url(r'^users/$', users.UserView.as_view()),
 
-    # ------------规格路由表-----------
+    # ------------ 规格路由表 -----------
     url(r'^goods/simple/$', specs.SpecsView.as_view({'get': 'simple'})),
-]
 
+    # ------------ 图片路由 ------------
+    url(r'^skus/simple/$', images.ImagesView.as_view({'get': 'simple'})),
+]
 
 # ----------规格表路由------
 router = DefaultRouter()
 router.register('goods/specs', specs.SpecsView, basename='specs')
+urlpatterns += router.urls
+
+
+# -------图片表路由------
+router = DefaultRouter()
+router.register('skus/images', images.ImagesView, basename='images')
 urlpatterns += router.urls

@@ -1,8 +1,8 @@
 <template>
   <div class="pictures_wrap">
-    <BreadCrumb crumb="商品图片管理"></BreadCrumb>  
+    <BreadCrumb crumb="商品图片管理"></BreadCrumb>
     <div class="top_bar">
-       <Addpictures @fnResetTable="fnGetData"></Addpictures>       
+       <Addpictures @fnResetTable="fnGetData"></Addpictures>
     </div>
     <PicturesTable :pictures="aPicturesList" @fnResetTable="fnGetData"></PicturesTable>
     <el-pagination
@@ -55,13 +55,13 @@ export default {
           }
       })
       .then(dat=>{
-          this.aPicturesList = dat.data.list;
+          this.aPicturesList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);

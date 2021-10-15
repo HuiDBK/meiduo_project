@@ -1,8 +1,8 @@
 <template>
   <div class="options_wrap">
-    <BreadCrumb crumb="规格选项管理"></BreadCrumb>  
+    <BreadCrumb crumb="规格选项管理"></BreadCrumb>
     <div class="top_bar">
-       <AddOptions @fnResetTable="fnGetData"></AddOptions>       
+       <AddOptions @fnResetTable="fnGetData"></AddOptions>
     </div>
     <OptionsTable :options="aOptionsList" @fnResetTable="fnGetData"></OptionsTable>
     <el-pagination
@@ -55,13 +55,13 @@ export default {
           }
       })
       .then(dat=>{
-          this.aOptionsList = dat.data.list;
+          this.aOptionsList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);

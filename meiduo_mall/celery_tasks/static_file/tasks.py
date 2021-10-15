@@ -33,7 +33,7 @@ def get_detail_html(sku_id):
     specs = spu.specs.order_by('id')
 
     # 查询所有的sku，如华为P10的所有库存商品
-    skus = spu.skus.order_by('id')
+    skus = sku.spu.sku_set.all().order_by('id')
     '''
     {
         选项:sku_id
@@ -89,5 +89,5 @@ def get_detail_html(sku_id):
 
     file_name = os.path.join(settings.BASE_DIR, 'static/details/%d.html' % sku.id)
     # 写文件
-    with open(file_name, 'w') as f1:
+    with open(file_name, 'w', encoding='utf-8') as f1:
         f1.write(response.content.decode())

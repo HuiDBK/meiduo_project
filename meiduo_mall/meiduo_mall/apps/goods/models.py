@@ -117,6 +117,7 @@ class SKUImage(BaseModel):
         db_table = 'meiduo_sku_image'
         verbose_name = 'SKU图片'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return '%s %s' % (self.sku.name, self.id)

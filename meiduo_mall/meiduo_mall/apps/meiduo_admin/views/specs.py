@@ -27,5 +27,3 @@ class SpecsView(ModelViewSet):
         spus = SPU.objects.all()
         ser = SPUSerializer(spus, many=True)
         return Response(ser.data)
-
-
