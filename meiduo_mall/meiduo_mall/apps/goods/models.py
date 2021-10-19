@@ -103,6 +103,7 @@ class SKU(BaseModel):
         db_table = 'meiduo_sku'
         verbose_name = '商品SKU'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return '%s: %s' % (self.id, self.name)

@@ -10,6 +10,7 @@ from meiduo_admin.views import statistical
 from meiduo_admin.views import users
 from meiduo_admin.views import specs
 from meiduo_admin.views import images
+from meiduo_admin.views import skus
 
 urlpatterns = [
 
@@ -38,15 +39,22 @@ urlpatterns = [
 
     # ------------ 图片路由 ------------
     url(r'^skus/simple/$', images.ImagesView.as_view({'get': 'simple'})),
+
+    # ------------ sku路由 ------------
+    url(r'^goods/(?P<pk>\d+)/specs/$', skus.SKUVIew.as_view({'get': 'specs'})),
 ]
 
-# ----------规格表路由------
+# ---------- 规格表路由 -------
 router = DefaultRouter()
 router.register('goods/specs', specs.SpecsView, basename='specs')
 urlpatterns += router.urls
 
-
-# -------图片表路由------
+# ------- 图片表路由 -------
 router = DefaultRouter()
 router.register('skus/images', images.ImagesView, basename='images')
+urlpatterns += router.urls
+
+# ------- SKU表路由 -------
+router = DefaultRouter()
+router.register('skus', skus.SKUVIew, basename='skus')
 urlpatterns += router.urls
