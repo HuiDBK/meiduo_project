@@ -1,8 +1,8 @@
 <template>
   <div class="brands_wrap">
-    <BreadCrumb crumb="品牌管理"></BreadCrumb>  
+    <BreadCrumb crumb="品牌管理"></BreadCrumb>
     <div class="top_bar">
-       <Addbrands @fnResetTable="fnGetData"></Addbrands>       
+       <Addbrands @fnResetTable="fnGetData"></Addbrands>
     </div>
     <BrandsTable :brands="aBrandsList" @fnResetTable="fnGetData"></BrandsTable>
     <el-pagination
@@ -55,13 +55,13 @@ export default {
           }
       })
       .then(dat=>{
-          this.aBrandsList = dat.data.list;
+          this.aBrandsList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);

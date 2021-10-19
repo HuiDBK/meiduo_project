@@ -51,6 +51,29 @@ urlpatterns = [
     url(r'^goods/channel/categories/$', spus.ChannelCategorysView.as_view()),
     url(r'^goods/channel/categories/(?P<id>\d+)/$', spus.ChannelCategorysView.as_view()),
 
+    # ------------ 频道路由 ------------
+    url(r'^goods/channels/$', channels.GoodsChannelsView.as_view(actions={
+        'get': 'list',
+        'post': 'create',
+    })),
+
+    url(r'^goods/channels/(?P<pk>\d+)/$', channels.GoodsChannelsView.as_view(actions={
+        'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy',
+    })),
+
+    url(r'^goods/categories/$', channels.CategoriesView.as_view()),
+
+    url(r'^goods/channel_types/$', channels.GoodsChannelGroupView.as_view()),
+
+    # 品牌路由
+    url(r'^goods/brands/(?P<pk>\d+)/$', brands.BrandView.as_view(actions={
+        'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy'
+    })),
+
 ]
 
 # ---------- 规格表路由 -------
@@ -71,9 +94,4 @@ urlpatterns += router.urls
 # ------- SPU表路由 -------
 router = DefaultRouter()
 router.register('goods', spus.SPUView, basename='goods')
-urlpatterns += router.urls
-
-# ------- 品牌表路由 -------
-router = DefaultRouter()
-router.register('brands', brands.BrandView, basename='brands')
 urlpatterns += router.urls

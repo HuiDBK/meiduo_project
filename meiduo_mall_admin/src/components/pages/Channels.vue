@@ -1,8 +1,8 @@
 <template>
   <div class="channels_wrap">
-    <BreadCrumb crumb="商品频道管理"></BreadCrumb>  
+    <BreadCrumb crumb="商品频道管理"></BreadCrumb>
     <div class="top_bar">
-       <Addchannels @fnResetTable="fnGetData"></Addchannels>       
+       <Addchannels @fnResetTable="fnGetData"></Addchannels>
     </div>
     <ChannelsTable :channels="aChannelsList" @fnResetTable="fnGetData"></ChannelsTable>
     <el-pagination
@@ -56,13 +56,13 @@ export default {
       })
       .then(dat=>{
           console.log(dat.data);
-          this.aChannelsList = dat.data.list;
+          this.aChannelsList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);
