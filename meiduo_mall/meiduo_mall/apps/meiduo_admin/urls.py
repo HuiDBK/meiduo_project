@@ -14,6 +14,7 @@ from meiduo_admin.views import skus
 from meiduo_admin.views import spus
 from meiduo_admin.views import channels
 from meiduo_admin.views import options
+from meiduo_admin.views import orders
 
 urlpatterns = [
 
@@ -81,7 +82,7 @@ urlpatterns = [
 
     url(r'^goods/channel_types/$', channels.GoodsChannelGroupView.as_view()),
 
-    # 品牌路由
+    # -------- 品牌路由 --------
     url(r'^goods/brands/$', channels.BrandView.as_view(actions={
         'get': 'list',
         'post': 'create',
@@ -91,6 +92,19 @@ urlpatterns = [
         'get': 'retrieve',
         'put': 'update',
         'delete': 'destroy'
+    })),
+
+    # -------- 订单路由路由 --------
+    url(r'^orders/$', orders.OrderViewSet.as_view(actions={
+        'get': 'list'
+    })),
+
+    url(r'^orders/(?P<pk>\d+)/$', orders.OrderViewSet.as_view(actions={
+        'get': 'retrieve',
+    })),
+
+    url(r'^orders/(?P<pk>\d+)/status/$', orders.OrderViewSet.as_view(actions={
+        'patch': 'partial_update'
     })),
 
 ]

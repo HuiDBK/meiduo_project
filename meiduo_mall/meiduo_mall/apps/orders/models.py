@@ -44,6 +44,7 @@ class OrderInfo(BaseModel):
         db_table = "meiduo_order_info"
         verbose_name = '订单基本信息'
         verbose_name_plural = verbose_name
+        ordering = ['order_id']
 
     def __str__(self):
         return self.order_id

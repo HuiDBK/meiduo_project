@@ -1,6 +1,6 @@
 <template>
   <div class="user_wrap">
-    <BreadCrumb crumb="订单管理"></BreadCrumb>  
+    <BreadCrumb crumb="订单管理"></BreadCrumb>
     <div class="top_bar">
         <el-row>
           <el-col :span="8">
@@ -8,8 +8,8 @@
               <el-button slot="append" icon="el-icon-search" @click="fnGetData(1)"></el-button>
             </el-input>
           </el-col>
-        </el-row>             
-    </div>    
+        </el-row>
+    </div>
     <OrderTable :orders="aOrderList"></OrderTable>
     <el-pagination
       background
@@ -42,13 +42,13 @@ export default {
   },
   components:{
     BreadCrumb,
-    OrderTable    
+    OrderTable
   },
   mounted(){
     this.fnGetData(1);
   },
   methods:{
-    fnGetData:function(num){      
+    fnGetData:function(num){
       this.axios.get(cons.apis + '/orders/', {
           headers: {
             'Authorization': 'JWT ' + token
@@ -61,7 +61,7 @@ export default {
           }
       })
       .then(dat=>{
-          this.aOrderList = dat.data.list;
+          this.aOrderList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
