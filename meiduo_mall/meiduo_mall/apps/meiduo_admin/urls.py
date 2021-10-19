@@ -13,6 +13,7 @@ from meiduo_admin.views import images
 from meiduo_admin.views import skus
 from meiduo_admin.views import spus
 from meiduo_admin.views import channels
+from meiduo_admin.views import options
 
 urlpatterns = [
 
@@ -49,6 +50,20 @@ urlpatterns = [
     url(r'^goods/brands/simple/$', spus.SPUView.as_view({'get': 'simple'})),
     url(r'^goods/channel/categories/$', spus.ChannelCategorysView.as_view()),
     url(r'^goods/channel/categories/(?P<id>\d+)/$', spus.ChannelCategorysView.as_view()),
+
+    # ------------ 规格选项路由 ------------
+    url(r'^specs/options/$', options.OptViewSet.as_view(actions={
+        'get': 'list',
+        'post': 'create',
+    })),
+
+    url(r'^specs/options/(?P<pk>\d+)/$', options.OptViewSet.as_view(actions={
+        'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy',
+    })),
+
+    url(r'^goods/specs/simple/$', options.SpecSimpleListView.as_view()),
 
     # ------------ 频道路由 ------------
     url(r'^goods/channels/$', channels.GoodsChannelsView.as_view(actions={
