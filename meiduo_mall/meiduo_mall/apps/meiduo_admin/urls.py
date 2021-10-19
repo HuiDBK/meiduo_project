@@ -11,6 +11,9 @@ from meiduo_admin.views import users
 from meiduo_admin.views import specs
 from meiduo_admin.views import images
 from meiduo_admin.views import skus
+from meiduo_admin.views import spus
+from meiduo_admin.views import brands
+from meiduo_admin.views import channels
 
 urlpatterns = [
 
@@ -41,7 +44,13 @@ urlpatterns = [
     url(r'^skus/simple/$', images.ImagesView.as_view({'get': 'simple'})),
 
     # ------------ sku路由 ------------
-    url(r'^goods/(?P<pk>\d+)/specs/$', skus.SKUVIew.as_view({'get': 'specs'})),
+    url(r'^goods/(?P<pk>\d+)/specs/$', skus.SKUView.as_view({'get': 'specs'})),
+
+    # ------------ spu路由 ------------
+    url(r'^goods/brands/simple/$', spus.SPUView.as_view({'get': 'simple'})),
+    url(r'^goods/channel/categories/$', spus.ChannelCategorysView.as_view()),
+    url(r'^goods/channel/categories/(?P<id>\d+)/$', spus.ChannelCategorysView.as_view()),
+
 ]
 
 # ---------- 规格表路由 -------
@@ -56,5 +65,15 @@ urlpatterns += router.urls
 
 # ------- SKU表路由 -------
 router = DefaultRouter()
-router.register('skus', skus.SKUVIew, basename='skus')
+router.register('skus', skus.SKUView, basename='skus')
+urlpatterns += router.urls
+
+# ------- SPU表路由 -------
+router = DefaultRouter()
+router.register('goods', spus.SPUView, basename='goods')
+urlpatterns += router.urls
+
+# ------- 品牌表路由 -------
+router = DefaultRouter()
+router.register('brands', brands.BrandView, basename='brands')
 urlpatterns += router.urls

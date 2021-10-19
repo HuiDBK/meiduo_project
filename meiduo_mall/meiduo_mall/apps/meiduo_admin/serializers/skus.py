@@ -7,7 +7,7 @@ from goods.models import SKU, GoodsCategory, SPUSpecification, SpecificationOpti
 
 class SKUSpecificationSerializer(serializers.ModelSerializer):
     """
-            sku具体规格表数据
+    sku具体规格表数据
     """
     spec_id = serializers.IntegerField()
     option_id = serializers.IntegerField()
@@ -17,9 +17,9 @@ class SKUSpecificationSerializer(serializers.ModelSerializer):
         fields = ('spec_id', 'option_id')
 
 
-class SKUSerialzier(serializers.ModelSerializer):
+class SKUSerializer(serializers.ModelSerializer):
     """
-        sku序列化器
+    sku序列化器
     """
     spu_id = serializers.IntegerField()
     category_id = serializers.IntegerField()
@@ -90,7 +90,7 @@ class SKUSerialzier(serializers.ModelSerializer):
 
 class GoodsCategorySerializer(serializers.ModelSerializer):
     """
-        商品分类序列化器
+    商品分类序列化器
     """
 
     class Meta:
@@ -107,7 +107,7 @@ class SpecificationOptionSerializer(serializers.ModelSerializer):
 
 class SPUSpecificationSerializer(serializers.ModelSerializer):
     """
-        SPU规格序列化器
+    SPU规格序列化器
     """
     options = SpecificationOptionSerializer(many=True)
 

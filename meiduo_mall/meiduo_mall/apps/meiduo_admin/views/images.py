@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from goods.models import SKUImage, SKU
-from meiduo_admin.serialziers.images import ImagesSerializer, SKUSerializer
+from meiduo_admin.serializers.images import ImagesSerializer, SKUSerializer
 from meiduo_admin.utils import PageNum
 from rest_framework.permissions import IsAdminUser
 

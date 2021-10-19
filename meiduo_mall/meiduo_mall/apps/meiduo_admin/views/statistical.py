@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from datetime import date, timedelta
 from django.utils import timezone
 
-from meiduo_admin.serialziers.statistical import UserGoodsCountSerializer
+from meiduo_admin.serializers.statistical import UserGoodsCountSerializer
 from users.models import User
 from goods.models import GoodsVisitCount
 

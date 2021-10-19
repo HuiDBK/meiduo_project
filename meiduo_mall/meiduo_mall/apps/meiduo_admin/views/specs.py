@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from goods.models import SPUSpecification
 from goods.models import SPU
-from meiduo_admin.serialziers.specs import SpecsSerialzier, SPUSerializer
+from meiduo_admin.serializers.specs import SpecsSerialzier, SPUSerializer
 from meiduo_admin.utils import PageNum
 
 

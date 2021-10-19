@@ -68,7 +68,7 @@ class ImagesSerializer(serializers.ModelSerializer):
 
 class SKUSerializer(serializers.ModelSerializer):
     """
-        sku序列化器
+    sku序列化器
     """
 
     class Meta:

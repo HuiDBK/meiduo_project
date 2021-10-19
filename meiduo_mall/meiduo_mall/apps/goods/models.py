@@ -41,6 +41,7 @@ class GoodsChannel(BaseModel):
         db_table = 'meiduo_goods_channel'
         verbose_name = '商品频道'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.category.name
@@ -56,6 +57,7 @@ class Brand(BaseModel):
         db_table = 'meiduo_brand'
         verbose_name = '品牌'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -151,6 +153,7 @@ class SpecificationOption(BaseModel):
         db_table = 'meiduo_specification_option'
         verbose_name = '规格选项'
         verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __repr__(self):
         return self.__str__()

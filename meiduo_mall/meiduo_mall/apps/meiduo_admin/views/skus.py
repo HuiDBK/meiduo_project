@@ -3,14 +3,14 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAdminUser
 from goods.models import SKU, GoodsCategory, SPU
-from meiduo_admin.serialziers.skus import SKUSerialzier, GoodsCategorySerializer, SPUSpecificationSerializer
+from meiduo_admin.serializers.skus import SKUSerializer, GoodsCategorySerializer, SPUSpecificationSerializer
 from meiduo_admin.utils import PageNum
 
 
 # /meiduo_admin/skus/?keyword=<名称|副标题>&page=<页码>&page_size=<页容量>
-class SKUVIew(ModelViewSet):
+class SKUView(ModelViewSet):
     # 指定序列化器
-    serializer_class = SKUSerialzier
+    serializer_class = SKUSerializer
     # 指定查询集
     queryset = SKU.objects.all()
     # 指定分页器

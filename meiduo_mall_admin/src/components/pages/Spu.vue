@@ -1,8 +1,8 @@
 <template>
   <div class="spu_wrap">
-    <BreadCrumb crumb="spu管理"></BreadCrumb>  
+    <BreadCrumb crumb="spu管理"></BreadCrumb>
     <div class="top_bar">
-       <el-button type="primary" class="pull-right"><router-link to="/home/spuadd">新增spu</router-link></el-button>    
+       <el-button type="primary" class="pull-right"><router-link to="/home/spuadd">新增spu</router-link></el-button>
     </div>
     <SpuTable :spus="aSpuList" @fnResetTable="fnGetData"></SpuTable>
     <el-pagination
@@ -54,13 +54,13 @@ export default {
           }
       })
       .then(dat=>{
-          this.aSpuList = dat.data.list;
+          this.aSpuList = dat.data.lists;
           this.page = dat.data.page;
           this.pages = dat.data.pages;
       }).catch(err=>{
          console.log(err);
       });
-    },   
+    },
     fnGetPage:function(dat){
       this.page = dat;
       this.fnGetData(this.page);

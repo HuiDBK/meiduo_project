@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 
-from meiduo_admin.serialziers.users import UserSerializer
-from meiduo_admin.serialziers.users import UserAddSerializer
+from meiduo_admin.serializers.users import UserSerializer
+from meiduo_admin.serializers.users import UserAddSerializer
 from meiduo_admin.utils import PageNum
 from users.models import User
 

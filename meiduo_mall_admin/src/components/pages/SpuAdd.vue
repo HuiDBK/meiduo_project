@@ -1,6 +1,6 @@
 <template>
   <div class="user_wrap">
-    <BreadCrumb crumb="SPU管理>新增SPU"></BreadCrumb>  
+    <BreadCrumb crumb="SPU管理>新增SPU"></BreadCrumb>
     <div class="center_wrap">
       <h1 class="spu_form_title">新增SPU</h1>
       <el-form :model="SpuForm" status-icon ref="SpuForm" label-width="100px">
@@ -36,7 +36,7 @@
             :value="item.id">
           </el-option>
         </el-select>
-      </el-form-item>      
+      </el-form-item>
       <el-form-item label="三级分类：" prop="category3_id">
         <el-select v-model="SpuForm.category3_id" size="small">
           <el-option
@@ -49,23 +49,23 @@
       </el-form-item>
 
       <el-form-item label="商品详情:">
-        <div><editor v-model="SpuForm.desc_detail" :init="init"></editor></div>        
+        <div><editor v-model="SpuForm.desc_detail" :init="init"></editor></div>
       </el-form-item>
 
-      <el-form-item label="商品包装:">  
-        <div><editor v-model="SpuForm.desc_pack" :init="init"></editor></div>  
+      <el-form-item label="商品包装:">
+        <div><editor v-model="SpuForm.desc_pack" :init="init"></editor></div>
       </el-form-item>
 
       <el-form-item label="售后服务:">
-        <div><editor v-model="SpuForm.desc_service" :init="init"></editor></div> 
-      </el-form-item> 
+        <div><editor v-model="SpuForm.desc_service" :init="init"></editor></div>
+      </el-form-item>
 
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
         <el-button @click="resetForm('SpuForm')">重置</el-button>
       </el-form-item>
-      </el-form>             
-    </div>  
+      </el-form>
+    </div>
 </div>
 </template>
 
@@ -112,12 +112,12 @@ export default {
         desc_detail:'',
         desc_pack:'',
         desc_service:''
-      }      
+      }
     }
   },
   components:{
     BreadCrumb,
-    Editor  
+    Editor
   },
   methods:{
     fnGetBrand:function(){
@@ -157,7 +157,7 @@ export default {
           responseType: 'json'
       })
       .then(dat=>{
-          this['category' + num + '_list'] = dat.data.subs;
+          this['category' + num + '_list'] = dat.data;
       }).catch(err=>{
          console.log(err);
       });
@@ -167,7 +167,7 @@ export default {
             headers: {
               'Authorization': 'JWT ' + token
             },
-            responseType: 'json'           
+            responseType: 'json'
         })
         .then(dat=>{
             if(dat.status==201){
@@ -197,7 +197,7 @@ export default {
                   type:'info',
                   message:errmsg.non_field_errors[0]
                 });
-              }           
+              }
            }
         });
     }

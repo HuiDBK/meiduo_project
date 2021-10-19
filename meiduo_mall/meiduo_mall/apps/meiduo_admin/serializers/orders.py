@@ -5,7 +5,7 @@ from goods.models import SKU
 
 class SKUSerializer(serializers.ModelSerializer):
     """
-        sku商品序列化器
+    sku商品序列化器
     """
     class Meta:
         model = SKU
@@ -14,19 +14,19 @@ class SKUSerializer(serializers.ModelSerializer):
 
 class OrderGoodsSerializer(serializers.ModelSerializer):
     """
-        订单商品序列化器
+    订单商品序列化器
     """
 
     sku = SKUSerializer()
 
     class Meta:
         model = OrderGoods
-        fields = ('count', 'price','sku')
+        fields = ('count', 'price', 'sku')
 
 
 class OrederSerialzier(serializers.ModelSerializer):
     """
-        订单序列化器
+    订单序列化器
     """
     skus = OrderGoodsSerializer(many=True)
 
