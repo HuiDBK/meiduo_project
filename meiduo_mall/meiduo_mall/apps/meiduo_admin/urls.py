@@ -15,6 +15,9 @@ from meiduo_admin.views import spus
 from meiduo_admin.views import channels
 from meiduo_admin.views import options
 from meiduo_admin.views import orders
+from meiduo_admin.views import group
+from meiduo_admin.views import admin
+from meiduo_admin.views import permissions
 
 urlpatterns = [
 
@@ -107,6 +110,13 @@ urlpatterns = [
         'patch': 'partial_update'
     })),
 
+    # -------- 权限路由 --------
+    url(r'^permission/content_types/$', permissions.PermissionsView.as_view({'get': 'content_type'})),
+
+    url(r'^permission/simple/$', group.GroupView.as_view({'get': 'simple'})),
+
+    url(r'^permission/groups/simple/$', admin.AdminView.as_view({'get': 'simple'})),
+
 ]
 
 # ---------- 规格表路由 -------
@@ -127,4 +137,22 @@ urlpatterns += router.urls
 # ------- SPU表路由 -------
 router = DefaultRouter()
 router.register('goods', spus.SPUView, basename='goods')
+urlpatterns += router.urls
+
+# --------权限路由--------
+router = DefaultRouter()
+router.register('permission/perms', permissions.PermissionsView, basename='perms')
+
+urlpatterns += router.urls
+
+# -------- 分组路由 --------
+router = DefaultRouter()
+router.register('permission/groups', group.GroupView, basename='groups')
+print(router.urls)
+urlpatterns += router.urls
+
+# -------- 管理员路由 --------
+router = DefaultRouter()
+router.register('permission/admins', admin.AdminView, basename='admin')
+print(router.urls)
 urlpatterns += router.urls
